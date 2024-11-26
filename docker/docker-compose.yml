@@ -1,0 +1,7 @@
+services:
+  ecole_42:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ../volume:/volume

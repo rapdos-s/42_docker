@@ -1,2 +1,8 @@
-# 42_docker
-Personal Docker setup for 42. Designed to provide a minimal and functional environment tailored for studying and practicing at 42.
+# 42 Docker Environment
+
+A basic Docker environment for studies at 42. This setup provides essential tools and configurations for development and learning.
+
+## Documentation
+
+- 🇺🇸 [Documentation in English](./README.en.md)
+- 🇧🇷 [Documentação em Português](./README.pt-BR.md)
