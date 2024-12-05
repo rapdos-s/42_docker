@@ -16,11 +16,8 @@ RUN python3 -m pip install --upgrade --user --break-system-packages setuptools
 RUN python3 -m pip install --upgrade --user --break-system-packages norminette
 RUN echo "export PATH=$PATH:~/.local/bin" >> ~/.bashrc
 
-# Aliases
-RUN echo "export alias ping='pong'" >> ~/.bashrc
-
 # Prompt PS1
-RUN echo "PS1=\"\[$(tput bold)\]\[\033[0;30m\]42 São Paulo\[\033[38;5;251m\] | \w\[$(tput sgr0)\]\n👀 > \[$(tput sgr0)\]\"" >> ~/.bashrc
+RUN echo "PS1=\"[ \h | \u ] [ \w ]\n\$ \"" >> ~/.bashrc
 
 # Start in /volume directory
 WORKDIR /volume

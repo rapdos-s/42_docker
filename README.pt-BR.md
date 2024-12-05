@@ -23,21 +23,8 @@ O container é baseado na imagem `ubuntu:latest`.
 
 Regras básicas
 - **`make all`**: Remove o container e volumes associados, constrói o ambiente e abre um terminal dentro do container.
-- **`make clean`**: Limpa o ambiente, parando o container.
-- **`make fclean`**: Limpa e remove tudo, incluindo volumes.
+- **`make fclean`**: Para os containers, limpa e remove tudo, incluindo volumes.
 - **`make re`**: Reconstrói o ambiente do zero.
-
-Regras Docker
-- **`make build`**: Constrói o container.
-- **`make up`**: Cria e inicia o container em modo desacoplado.
-- **`make down`**: Remove o container e os volumes associados.
-- **`make stop`**: Para o container.
-- **`make enter`**: Abre um terminal dentro do container.
-
-Outras regras
-- **`make sudo`**: Solicita permissão de sudo. Se você não precisar ou não puder usá-lo, altere a variável `need_sudo` para `false`.
-- **`make ping`**: Pong... É basicamente isso...
-
 
 ### Usando o Docker Compose
 

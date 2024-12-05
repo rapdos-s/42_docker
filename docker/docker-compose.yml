@@ -1,5 +1,6 @@
 services:
   ecole_42:
+    hostname: 42SP
     build: 
       context: .
       dockerfile: Dockerfile
