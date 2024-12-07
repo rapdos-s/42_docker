@@ -16,6 +16,10 @@ RUN python3 -m pip install --upgrade --user --break-system-packages setuptools
 RUN python3 -m pip install --upgrade --user --break-system-packages norminette
 RUN echo "export PATH=$PATH:~/.local/bin" >> ~/.bashrc
 
+# Display server setup
+ENV DISPLAY=host.docker.internal:0
+RUN apt install -y tk python3-tk
+
 # Prompt PS1
 RUN echo "PS1=\"[ \h | \u ] [ \w ]\n\$ \"" >> ~/.bashrc
 
