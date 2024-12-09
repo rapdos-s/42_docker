@@ -1,30 +1,27 @@
-FROM ubuntu:latest
+FROM ubuntu:20.04
 
-# Update and upgrade packages
 RUN apt update -y && apt upgrade -y
 
-# Basic C development tools
-RUN apt install -y clang
 RUN apt install -y make
 RUN apt install -y valgrind
+RUN apt install -y gdb
 
-# Norminette
-RUN apt install -y python3
-RUN apt install -y python3-pip
-RUN python3 -m pip install --upgrade --user --break-system-packages pip
-RUN python3 -m pip install --upgrade --user --break-system-packages setuptools
-RUN python3 -m pip install --upgrade --user --break-system-packages norminette
+# clang, gcc, cc
+RUN apt install -y clang-12
+RUN echo "alias clang=clang-12" >> ~/.bashrc
+RUN echo "alias gcc=clang" >> ~/.bashrc
+RUN echo "alias cc=clang" >> ~/.bashrc
+
+# norminette
+RUN apt install -y python3 python3-pip
+RUN python3 -m pip install pip
+RUN python3 -m pip install setuptools
+RUN python3 -m pip install norminette
 RUN echo "export PATH=$PATH:~/.local/bin" >> ~/.bashrc
+RUN echo "alias python=python3" >> ~/.bashrc
 
-# Display server setup
-ENV DISPLAY=host.docker.internal:0
-RUN apt install -y tk python3-tk
-
-# Prompt PS1
-RUN echo "PS1=\"[ \h | \u ] [ \w ]\n\$ \"" >> ~/.bashrc
-
-# Start in /volume directory
 WORKDIR /volume
 
-# Keep container running
+RUN echo "PS1=\"[ \h | \u ] [ \w ]\n\$ \"" >> ~/.bashrc
+
 CMD ["tail", "-f", "/dev/null"]
