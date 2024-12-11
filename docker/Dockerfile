@@ -5,23 +5,24 @@ RUN apt update -y && apt upgrade -y
 RUN apt install -y make
 RUN apt install -y valgrind
 RUN apt install -y gdb
-
-# clang, gcc, cc
 RUN apt install -y clang-12
-RUN echo "alias clang=clang-12" >> ~/.bashrc
-RUN echo "alias gcc=clang" >> ~/.bashrc
-RUN echo "alias cc=clang" >> ~/.bashrc
 
 # norminette
+RUN apt update -y && apt upgrade -y
 RUN apt install -y python3 python3-pip
-RUN python3 -m pip install pip
-RUN python3 -m pip install setuptools
 RUN python3 -m pip install norminette
 RUN echo "export PATH=$PATH:~/.local/bin" >> ~/.bashrc
-RUN echo "alias python=python3" >> ~/.bashrc
 
 WORKDIR /volume
 
-RUN echo "PS1=\"[ \h | \u ] [ \w ]\n\$ \"" >> ~/.bashrc
+RUN useradd --create-home --shell /bin/bash marvin
+
+RUN echo "PS1=\"[ \h | \u ] [ \w ]\n\$ \"" >> /home/marvin/.bashrc
+RUN echo "alias python=python3" >> /home/marvin/.bashrc
+RUN echo "alias clang=clang-12" >> /home/marvin/.bashrc
+RUN echo "alias gcc=clang" >> /home/marvin/.bashrc
+RUN echo "alias cc=clang" >> /home/marvin/.bashrc
+
+USER marvin
 
 CMD ["tail", "-f", "/dev/null"]

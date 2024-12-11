@@ -1,6 +1,6 @@
 services:
   ecole_42:
-    hostname: 42SP
+    hostname: 42 São Paulo
     build: 
       context: .
       dockerfile: Dockerfile
