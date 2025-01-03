@@ -27,14 +27,19 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /volume
 
+# Setting up PS1 variables
+RUN echo "PS1=\"[ \h | \u ] [ \w ]\n≡ \"" >> /root/.bashrc /home/marvin/.bashrc
+
+# Setting up aliases
+RUN echo "alias python=python3" >> /root/.bashrc /home/marvin/.bashrc
+RUN echo "alias clang=clang-12" >> /root/.bashrc /home/marvin/.bashrc
+RUN echo "alias gcc=clang"      >> /root/.bashrc /home/marvin/.bashrc
+RUN echo "alias cc=clang"       >> /root/.bashrc /home/marvin/.bashrc
+RUN echo "alias g++=clang"      >> /root/.bashrc /home/marvin/.bashrc
+RUN echo "alias c++=clang"      >> /root/.bashrc /home/marvin/.bashrc
+
+# Adding user marvin
 RUN useradd --create-home --shell /bin/bash marvin
-
-RUN echo "PS1=\"[ \h | \u ] [ \w ]\n\$ \"" >> /home/marvin/.bashrc
-RUN echo "alias python=python3" >> /home/marvin/.bashrc
-RUN echo "alias clang=clang-12" >> /home/marvin/.bashrc
-RUN echo "alias gcc=clang" >> /home/marvin/.bashrc
-RUN echo "alias cc=clang" >> /home/marvin/.bashrc
-
-USER marvin
+# USER marvin
 
 CMD ["tail", "-f", "/dev/null"]
