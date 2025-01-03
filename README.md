@@ -4,5 +4,5 @@ A basic Docker environment for studies at 42. This setup provides essential tool
 
 ## Documentation
 
-- 🇺🇸 [Documentation in English](./README.en.md)
-- 🇧🇷 [Documentação em Português](./README.pt-BR.md)
+- 🇺🇸 [Documentation in English](./docs/README.en.md)
+- 🇧🇷 [Documentação em Português](./docs/README.pt-BR.md)
