@@ -1,45 +1,71 @@
 FROM ubuntu:20.04
 
+# Setting up environment variables
+# DEBIAN_FRONTEND: Needed to avoid interactive installations (choose location, etc)
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Adding users
+RUN useradd --create-home --shell /bin/bash marvin
+
+# Updating
 RUN apt-get update
 
-# basic C language tools
-RUN apt-get install -y --no-install-recommends make valgrind gdb clang-12
+# Tools Instalations
+# norminette:  Python3, Pyrhon3-pip
+# mlx: git, gcc, xorg, libxext-dev, libbsd-dev
+RUN apt-get install -y --no-install-recommends \
+    nano           \
+		vim            \
+		wget           \
+		make           \
+		valgrind       \
+		gdb            \
+		clang-12       \
+		python3        \
+		python3-pip    \
+		git            \
+		gcc
 
-# norminette
-RUN apt-get install -y --no-install-recommends python3 python3-pip
-RUN python3 -m pip install norminette
-RUN echo "export PATH=$PATH:~/.local/bin" >> ~/.bashrc
-
-# mlx
-ENV DISPLAY=host.docker.internal:0
-ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get install -y --no-install-recommends git gcc xorg libxext-dev libbsd-dev
-RUN git clone https://github.com/42Paris/minilibx-linux.git minilibx-linux
-RUN make -C minilibx-linux
-RUN mkdir -p /usr/local/lib /usr/local/include /usr/local/man/man3/
-RUN cp minilibx-linux/libmlx.a /usr/local/lib
-RUN cp minilibx-linux/libmlx_Linux.a /usr/local/lib/
-RUN cp minilibx-linux/mlx.h /usr/local/include/
-RUN cp minilibx-linux/man/man3/mlx* /usr/local/man/man3/
+		# xorg           \
+		# libxext-dev    \
+		# libbsd-dev
 
 # Cleaning apt-get cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# norminette
+RUN python3 -m pip install norminette
+
+# mlx
+# RUN git clone https://github.com/42Paris/minilibx-linux.git minilibx-linux
+# RUN make -C minilibx-linux
+# RUN mkdir -p /usr/local/lib
+# RUN mkdir -p /usr/local/include
+# RUN mkdir -p /usr/local/man/man3/
+# RUN cp minilibx-linux/libmlx.a       /usr/local/lib
+# RUN cp minilibx-linux/libmlx_Linux.a /usr/local/lib/
+# RUN cp minilibx-linux/mlx.h          /usr/local/include/
+# RUN cp minilibx-linux/man/man3/mlx*  /usr/local/man/man3/
+
+# Setting up .bashrc
+# export PATH=$PATH:~/.local/bin: Needed for norminette
+RUN bashrc_config="                     \
+export PATH=$PATH:~/.local/bin       \n \
+PS1=\"[ \h | \u ] [ \w ]\n≡ \"       \n \
+alias python=python3                 \n \
+alias clang=clang-12                 \n \
+alias gcc=clang                      \n \
+alias cc=clang                       \n \
+alias g++=clang                      \n \
+alias c++=clang                      \n \
+"                                    && \
+echo $bashrc_config >> /root/.bashrc && \
+echo $bashrc_config >> /home/marvin/.bashrc
+
+# Set user to marvin 
+USER marvin
+
+# Set working directory to /volume
 WORKDIR /volume
-
-# Setting up PS1 variables
-RUN echo "PS1=\"[ \h | \u ] [ \w ]\n≡ \"" >> /root/.bashrc /home/marvin/.bashrc
-
-# Setting up aliases
-RUN echo "alias python=python3" >> /root/.bashrc /home/marvin/.bashrc
-RUN echo "alias clang=clang-12" >> /root/.bashrc /home/marvin/.bashrc
-RUN echo "alias gcc=clang"      >> /root/.bashrc /home/marvin/.bashrc
-RUN echo "alias cc=clang"       >> /root/.bashrc /home/marvin/.bashrc
-RUN echo "alias g++=clang"      >> /root/.bashrc /home/marvin/.bashrc
-RUN echo "alias c++=clang"      >> /root/.bashrc /home/marvin/.bashrc
-
-# Adding user marvin
-RUN useradd --create-home --shell /bin/bash marvin
-# USER marvin
 
 CMD ["tail", "-f", "/dev/null"]

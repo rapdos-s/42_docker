@@ -1,10 +1,7 @@
 services:
   ecole_42:
     hostname: 42 São Paulo
-    build: 
+    build:
       context: .
     volumes:
       - ../volume:/volume
-      - /tmp/.X11-unix:/tmp/.X11-unix
-    environment:
-      - DISPLAY=host.docker.internal:0
